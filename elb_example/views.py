@@ -1,16 +1,28 @@
 import hashlib
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import socket
 import random
+from rest_framework.renderers import JSONRenderer
 
 
 class HashView(APIView):
+    renderer_classes = [JSONRenderer]
+
     def get(self, request):
-        # 초기 해시 값
-        initial_hash = str(random.getrandbits(256))
+        hostname = socket.gethostname()
+        server_ip = socket.gethostbyname(hostname)
+        ip_hash = str(server_ip)
+        random_hash = str(random.random())
 
         # 1,000,000번 반복
         for _ in range(1_000_000):
-            initial_hash = hashlib.sha256(initial_hash.encode()).hexdigest()
+            ip_hash = hashlib.sha256(ip_hash.encode()).hexdigest()
+            random_hash = hashlib.sha256(random_hash.encode()).hexdigest()
 
-        return Response({"hash": initial_hash})
+        return Response(
+            {
+                "random_hash": random_hash,
+                "ip_hash": ip_hash,
+            }
+        )
