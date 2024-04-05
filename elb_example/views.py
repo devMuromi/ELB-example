@@ -15,8 +15,8 @@ class HashView(APIView):
         ip_hash = str(server_ip)
         random_hash = str(random.random())
 
-        # 1,000,000번 반복
-        for _ in range(1_000_000):
+        # 500,000번 반복
+        for _ in range(250_000):
             ip_hash = hashlib.sha256(ip_hash.encode()).hexdigest()
             random_hash = hashlib.sha256(random_hash.encode()).hexdigest()
 
