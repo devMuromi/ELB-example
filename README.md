@@ -12,4 +12,4 @@ sudo pip install -r requirements.txt
 
 # Django 서버 실행
 python3 manage.py migrate
-sudo python3 manage.py runserver 0.0.0.0:80
+sudo gunicorn --bind 0:80 elb_example.wsgi
